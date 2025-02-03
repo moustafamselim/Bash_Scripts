@@ -1,0 +1,99 @@
+# Config
+
+# to join datebase test
+# /usr/local/pgsql/bin/psql test
+
+##########################################
+
+# Create File to Auto Start & Stop
+
+echo "[Unit]
+Description=PostgreSQL Database Server
+After=network.target
+
+[Service]
+Type=forking
+User=postgres
+ExecStart=/usr/local/pgsql/bin/pg_ctl start -D /usr/local/pgsql/data
+ExecStop=/usr/local/pgsql/bin/pg_ctl stop -D /usr/local/pgsql/data
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target " | sudo tee /etc/systemd/system/postgresql.service 
+
+##################################################
+
+sudo systemctl daemon-reload
+sudo systemctl enable postgresql
+sudo systemctl start postgresql
+sudo systemctl status postgresql
+
+### use postgres DB ### #############################################################
+
+## Start ####
+/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
+
+# stop #####
+/usr/local/pgsql/bin/pg_ctl stop -D /usr/local/pgsql/data -m fast
+
+# Enter To databases ####
+/usr/local/pgsql/bin/psql
+
+
+
+#Import db via ssh 
+scp /local/path/to/dumpfile.sql username@remote_host:/remote/path/to/dumpfile.sql
+
+CREATE DATABASE test;
+DROP DATABASE test;
+#show All databases       
+\l
+#Exit                    
+\q
+
+#To find the OID of your database (test), run the following query:
+SELECT oid, datname FROM pg_database WHERE datname = 'test';
+
+#######################################################################################
+
+
+#Install PostgreSQL Client Tools
+#Install the PostgreSQL client package for version 9.6 (since you're using PostgreSQL 9.6.24).
+#On Debian/Ubuntu:
+
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql-client-9.6 
+
+##########
+#Export the Database
+pg_dump -U postgres -h localhost -p 5432 -F p -f name_of_backup.sql test
+##########
+
+#Import the Dump into a Database (system)
+
+#Step 1: Create the Target Database (if needed)
+psql -U postgres -c "CREATE DATABASE test;"
+
+#Step 2: Import the Dump
+psql -U postgres -d system -f test_backup.sql
+
+###########################################################################################
+
+### Troupleshoot ###
+
+# chnage ip to all
+nano /usr/local/pgsql/data/pg_hba.conf
+
+#to error ( not start auto )
+
+sudo nano /usr/local/pgsql/data/postgresql.conf
+
+listen_addresses = 'localhost'     # Allow local connections
+port = 5432                        # Default port
+unix_socket_directories = '/tmp'   # Explicit socket directory
+
+
+
+
