@@ -79,6 +79,14 @@ psql -U postgres -c "CREATE DATABASE test;"
 #Step 2: Import the Dump
 psql -U postgres -d system -f test_backup.sql
 
+# Restor
+/usr/local/pgsql/bin/psql  pgsql -U pgsql -d cuisine5_Site -f 87051013113410
+
+/usr/local/pgsql/bin/psql  pgsql -U pgsql -d cuisine5_Site -f 87051013113410
+
+CREATE ROLE pgsqldb superuser;
+CREATE ROLE pgsql superuser;
+
 ###########################################################################################
 
 ### Troupleshoot ###
@@ -94,6 +102,44 @@ listen_addresses = 'localhost'     # Allow local connections
 port = 5432                        # Default port
 unix_socket_directories = '/tmp'   # Explicit socket directory
 
+# Create with win1256
+/usr/local/pgsql/bin/createdb cuisine5_Site -E WIN1256 --lc-collate=C --lc-ctype=C --template=template0
+
+cuisine5_Site
 
 
+
+# Show All DB With out Join
+psql -h 192.168.0.9 -U pgsql -l
+
+# Display All Tabels In DB 
+psql -h 192.168.0.9 -U pgsql -d cuisine5_Site -c "\dt"
+
+
+#/usr/local/pgsql/bin/createdb test
+/usr/local/pgsql/bin/createdb mydb -E 'WIN1256'
+
+
+
+Restore the Backup
+
+    For SQL Files:
+   
+    psql -U pgsql -h 192.168.0.9 -d cuisine5_Site -f cuisine5_Site_backup.sql
+
+    For Custom Format:
+
+    pg_restore -U pgsql -h 192.168.0.9 -d cuisine5_Site -v cuisine5_Site_backup.dump
+
+
+12922
+
+
+cuisine5_Site=# SELECT count(*) FROM pg_tables WHERE schemaname NOT IN ('pg_catalog', 'information_schema');
+ count 
+-------
+   671
+(1 row)
+
+cuisine5_Site=# 
 

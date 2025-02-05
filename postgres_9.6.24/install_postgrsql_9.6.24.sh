@@ -12,18 +12,19 @@ tar xfz postgresql-9.6.24.tar.gz
 cd postgresql-9.6.24
 
 #Installation
-./configure
+./configure --prefix=/usr/local/pgsql
 make
 sudo make install
-sudo adduser postgres
+sudo adduser pgsql
 sudo mkdir /usr/local/pgsql/data
 
 
-sudo chown postgres /usr/local/pgsql/data
-sudo chown -R postgres:postgres /usr/local/pgsql/data
+sudo chown pgsql /usr/local/pgsql/data
+sudo chown -R pgsql:pgsql /usr/local/pgsql/data
 
-su - postgres
+su - pgsql
 
 /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
 /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data >logfile 2>&1 &
-/usr/local/pgsql/bin/createdb test
+#/usr/local/pgsql/bin/createdb test
+/usr/local/pgsql/bin/createdb mydb -E 'WIN1256'
