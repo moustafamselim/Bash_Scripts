@@ -143,3 +143,12 @@ cuisine5_Site=# SELECT count(*) FROM pg_tables WHERE schemaname NOT IN ('pg_cata
 
 cuisine5_Site=# 
 
+#connect
+psql -U pgsql -h 192.168.0.9 -d cuisine5_Site
+
+SELECT count(*) FROM pg_tables WHERE schemaname NOT IN ('pg_catalog', 'information_schema');
+
+
+restor
+
+pg_restore -U pgsql -h 192.168.0.9 -d cuisine5_Site -v cuisine5_Site_backup.dump
