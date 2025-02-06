@@ -8,7 +8,7 @@
 - [Command For Postgres](#command-for-postgres)
 ----
 ## Installation: 
-**<ins>Update & Upgrade & Install Depn**
+**<ins>Update & Upgrade & Install Dependencies**
 
     sudo apt update && sudo apt upgrade -y
     sudo apt install build-essential libreadline-dev zlib1g-dev flex bison git -y
@@ -207,7 +207,7 @@ OR
 
 **<ins>Import db via ssh**
 
-    scp /local/path/to/dumpfile.sql username@remote_host:/remote/path/to/dumpfile.sql
+    scp /local/path/to/dumpfile.sql <db_user>@<db_ip>:/remote/path/to/dumpfile.sql
 
 
 ![Restor]()
