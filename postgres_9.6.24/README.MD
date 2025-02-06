@@ -42,20 +42,28 @@
 
 **<ins>Switch To Pgsql User :**
 
+```
+    su pgsql
+```
+
     /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
     /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data >logfile 2>&1 &
+```
 ----
 
 ## DB_Server_Configuration
 **<ins>The default is to be able to access the database locally and also to run the Database Service manually.....**
 
 **<ins>We will modify it as follows:**
-### - Start - Stop
+###  Start - Stop
 
 **<ins>1- Manually with postgres user** 
 
-    
+**<ins>Start**
+
     /usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start
+
+**<ins>Stop**
    
     /usr/local/pgsql/bin/pg_ctl stop -D /usr/local/pgsql/data -m fast
 
