@@ -43,12 +43,11 @@
 **<ins>Switch To Pgsql User :**
 
 ```
-    su pgsql
+su pgsql
 ```
 
     /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
     /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data >logfile 2>&1 &
-```
 ----
 
 ## DB_Server_Configuration
