@@ -5,7 +5,7 @@
 - [DB_Server_Configuration](#db_server_configuration)
 - [Create & Drop_DB](#create--drop_db)
 - [Backup & Restor](#backup--restor)
-- [Integration](#integration)
+- [Command For Postgres](#command-for-postgres)
 ----
 ## Installation: 
 **<ins>Update & Upgrade & Install Depn**
@@ -14,9 +14,7 @@
     sudo apt install build-essential libreadline-dev zlib1g-dev flex bison git -y
     sudo apt-get install make -y
     sudo apt-get install gcc -y
-    sudo apt-get install zlib1g-dev -y
-    sudo apt-get install bison -y
-
+    
 **<ins>Download postgres-9.6.24**
 
     wget https://ftp.postgresql.org/pub/source/v9.6.24/postgresql-9.6.24.tar.gz
@@ -33,6 +31,10 @@
 
     sudo adduser pgsql 
 
+**<ins>Create Dirctory**
+
+    sudo mkdir /usr/local/pgsql/data
+    
 **<ins>Change Owner Of Postgres_DB_Folder** 
 
     sudo chown pgsql /usr/local/pgsql/data
@@ -41,7 +43,7 @@
 **<ins>Switch To Pgsql User :**
 
     /usr/local/pgsql/bin/initdb -D /usr/local/pgsql/data
-    /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data
+    /usr/local/pgsql/bin/postgres -D /usr/local/pgsql/data >logfile 2>&1 &
 ----
 
 ## DB_Server_Configuration
@@ -63,7 +65,8 @@
 
     sudo nano /etc/systemd/system/postgresql.service 
 
-**<ins>Add**
+**<ins>Add & -- Note --: Please change the name of the Database Admin**
+ 
 
     [Unit]
     Description=PostgreSQL Database Server
@@ -71,7 +74,7 @@
 
     [Service]
     Type=forking
-    User=postgres
+    User=pgsql
     ExecStart=/usr/local/pgsql/bin/pg_ctl start -D /usr/local/pgsql/data
     ExecStop=/usr/local/pgsql/bin/pg_ctl stop -D /usr/local/pgsql/data
     Restart=on-failure
@@ -89,7 +92,7 @@
 ![Status]()
 
 
-## - Connect & 
+## - Network & Connection
 **Config To Connect For Any Network**
 
 
@@ -104,11 +107,11 @@
 ![Pg_hba.conf]()
 
     sudo nano /usr/local/pgsql/data/postgresql.conf
-**<ins>Edit & Change listen From Local To (*) and Remove # For the three lines**
+**<ins>Edit & Change listen From Local To (*) and Remove (#)  
 
     listen_addresses = '*'     # Allow local connections
-    port = 5432                        # Default port
-    unix_socket_directories = '/tmp'   # Explicit socket directory
+    #port = 5432                        # Default port
+    #unix_socket_directories = '/tmp'   # Explicit socket directory
 
 ![Postgresql.conf]()
 
@@ -124,7 +127,13 @@
 
     /usr/local/pgsql/bin/psql <db_name>
 
+
 **<ins>External**
+ **<ins>Note: Database client must be installed .**
+    
+    sudo apt install postgresql-client
+
+**<ins>Then**
 
     psql -U <db_user> -h <db_ip> -d <db_name> -p 5432
 
@@ -196,18 +205,23 @@ OR
 
     /usr/local/pgsql/bin/psql  pgsql -U pgsql -d <db_name> -f <db_name_backup_restor>
 
+**<ins>Import db via ssh**
+
+    scp /local/path/to/dumpfile.sql username@remote_host:/remote/path/to/dumpfile.sql
 
 
 ![Restor]()
 
 
+### Command For Postgres
 
+**Show All DB With out Join**
 
+    psql -h <db_ip> -U <db_user> -l
 
+**Display All Tabels In DB**
 
-
-
-
+    psql -h <db_ip> -U <db_user> -d <db_name> -c "\dt"
 
 
 
