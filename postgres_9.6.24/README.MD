@@ -11,9 +11,9 @@
 **<ins>Update & Upgrade & Install Dependencies**
 
     sudo apt update && sudo apt upgrade -y
-    sudo apt install build-essential libreadline-dev zlib1g-dev flex bison git -y
-    sudo apt-get install make -y
-    sudo apt-get install gcc -y
+    ssudo apt install -y build-essential libreadline-dev zlib1g-dev flex bison \
+     libxml2-dev libxslt1-dev libssl-dev libpam0g-dev libedit-dev
+
     
 **<ins>Download postgres-9.6.24**
 
